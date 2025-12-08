@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <h1>Simple Farming Simulator Demo</h1>
+        <title>Farming Milestone Demo</title>
+        <style>
+            body { 
+                margin: 0; 
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            canvas { display: block; }
+        </style>
+    </head>
+    <body>
+        <canvas id="game-surface" width="320" height="320"></canvas>
+        <script src="spritesheet.js"></script>
+        <script src="input.js"></script>
+        <script src="assets.js"></script>
+        <script src="render.js"></script>
+        <script src="game.js"></script>
+        <script type="module" src="main.js"></script>
+    </body>
+</html>
