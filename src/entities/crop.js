@@ -11,7 +11,7 @@ class Crops {
     constructor(sprite) {
         this.sprite = sprite;
 
-        this.tileSize = 32;
+        this.tileSize = 8;
         this.mapWidth = 10;
         this.mapHeight = 10;
 

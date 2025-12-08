@@ -11,7 +11,7 @@
  * 
  */
 
-const TILE_SIZE = 32;
+const TILE_SIZE = 8;
 
 class Game {
     constructor(gl, assets, tileSheet, playerSheet) {

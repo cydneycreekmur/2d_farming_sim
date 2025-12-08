@@ -8,30 +8,76 @@
  * 
  */
 
-const TILE_SIZE = 32;
+const TILE_SIZE = 8;
+const PLAYER_SIZE = 16;
 
 async function main() {
     const canvas = document.getElementById("game-surface");
+
     const gl = canvas.getContext("webgl2");
     if (!gl) alert("WebGL2 not supported");
 
     const assets = await loadAssets(gl);
 
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
     const tileSheet = new SpriteSheet(assets.tileSetImg, TILE_SIZE, TILE_SIZE);
-    const playerSheet = new SpriteSheet(assets.playerImg, TILE_SIZE, TILE_SIZE);
+    const playerSheet = new SpriteSheet(assets.playerImg, PLAYER_SIZE, PLAYER_SIZE);
 
     const renderer = await initRenderer(gl);
 
     const input = new Input();
     const player = new Player(32, 32);
 
-    const mapWidth = 10;
-    const mapHeight = 10;
+    const mapWidth = 60;
+    const mapHeight = 60;
+
+    const cropWidth = 20;
+    const cropHeight = 20;
+
+    const cropStartX = Math.floor((mapWidth - cropWidth) / 2);
+    const cropStartY = Math.floor((mapHeight - cropHeight) / 2);
 
     const map = [];
-    for(let y=0;y<mapHeight;y++){
-        for(let x=0;x<mapWidth;x++){
-            map.push({x: x*TILE_SIZE, y: y*TILE_SIZE, tileIndex: 0});
+    const groundTiles = [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        4, 4, 4,
+        5, 5,
+        16, 
+        17, 17, 17,
+        18
+    ];
+
+    // crop tiles dictionary
+    // "tile name": "tile location"
+    const cropTiles = {
+        "full dirt": 1, 
+        "partial dirt": 2, 
+        "grown radish": 33,
+        "radish seedling": 34,
+        "grown wheat": 46,
+        "wheat seedling": 47
+    };
+    
+    for(let y=0; y < mapHeight; y++){
+        for(let x=0; x < mapWidth; x++){
+
+            const inCropArea = x >= cropStartX && x < cropStartX + cropWidth && y >= cropStartY && y < cropStartY + cropHeight;
+            let tileIndex;
+
+            if(inCropArea) {
+                tileIndex = cropTiles["full dirt"];
+            } else {
+                tileIndex = groundTiles[Math.floor(Math.random() * groundTiles.length)];
+            }
+
+            map.push({
+                x: x*TILE_SIZE, 
+                y: y*TILE_SIZE, 
+                tileIndex: tileIndex,
+                isCropArea: inCropArea
+            });
         }
     }
 
@@ -48,11 +94,31 @@ async function main() {
 
         // draw map
         for(const tile of map){
-            drawTile(gl, assets.shaders.sprite, renderer, tileSheet, tile.tileIndex, tile.x, tile.y, assets.tilesTex, [canvas.width, canvas.height]);
+            drawTile(
+                gl, 
+                assets.shaders.sprite, 
+                renderer, 
+                tileSheet, 
+                tile.tileIndex, 
+                tile.x, 
+                tile.y, 
+                assets.tilesTex, 
+                [canvas.width, canvas.height]
+            );
         }
 
         // draw player
-        drawTile(gl, assets.shaders.sprite, renderer, playerSheet, 0, player.x, player.y, assets.playerTex, [canvas.width, canvas.height]);
+        drawTile(
+            gl, 
+            assets.shaders.sprite, 
+            renderer, 
+            playerSheet, 
+            0, 
+            player.x, 
+            player.y, 
+            assets.playerTex, 
+            [canvas.width, canvas.height]
+        );
 
         requestAnimationFrame(loop);
     }
