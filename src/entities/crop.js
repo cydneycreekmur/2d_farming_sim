@@ -25,7 +25,7 @@ class Crops {
                 this.crops.push({
                     x: i*this.tileSize, 
                     y: j*this.tileSize, 
-                    state:0, 
+                    state:0, // 0 = empty, 1 = growing, 2 = ready
                     timer:0
                 });
             }

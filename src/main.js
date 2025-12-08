@@ -8,8 +8,16 @@
  * 
  */
 
+const MAP_WIDTH = 60;
+const MAP_HEIGHT = 60;
+
+const CROP_WIDTH = 30;
+const CROP_HEIGHT = 30;
+
 const TILE_SIZE = 8;
 const PLAYER_SIZE = 16;
+
+const MAP = [];
 
 const GROUND_TILES = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -31,6 +39,8 @@ const CROP_TILES = {
     "wheat seedling": 47
 };
 
+const WATER_TILES = [126, 127, 128];
+
 async function main() {
     const canvas = document.getElementById("game-surface");
 
@@ -50,39 +60,35 @@ async function main() {
     const input = new Input();
     const player = new Player(32, 32);
 
-    const mapWidth = 60;
-    const mapHeight = 60;
-
-    const cropWidth = 30;
-    const cropHeight = 30;
-
-    const cropStartX = Math.floor((mapWidth - cropWidth) / 2);
-    const cropStartY = Math.floor((mapHeight - cropHeight) / 2);
-
-    const map = [];
+    const cropStartX = Math.floor((MAP_WIDTH - CROP_WIDTH) / 2);
+    const cropStartY = Math.floor((MAP_HEIGHT - CROP_HEIGHT) / 2);
     
-    for(let y=0; y < mapHeight; y++){
-        for(let x=0; x < mapWidth; x++){
+    for(let y=0; y < MAP_HEIGHT; y++){
+        for(let x=0; x < MAP_WIDTH; x++){
 
-            const inCropArea = x >= cropStartX && x < cropStartX + cropWidth && y >= cropStartY && y < cropStartY + cropHeight;
-            const inBorderArea = !inCropArea && x >= cropStartX - 1 && x <= cropStartX + cropWidth && y >= cropStartY - 1 && y <= cropStartY + cropHeight;
+            const inCropArea = x >= cropStartX && x < cropStartX + CROP_WIDTH && y >= cropStartY && y < cropStartY + CROP_HEIGHT;
+            const inBorderArea = !inCropArea && x >= cropStartX - 1 && x <= cropStartX + CROP_WIDTH && y >= cropStartY - 1 && y <= cropStartY + CROP_HEIGHT;
+            const inMapBorder = !inCropArea && !inBorderArea && (x === 0 || y === 0 || x === MAP_WIDTH - 1 || y === MAP_WIDTH - 1);
+
             let tileIndex;
 
             if(inCropArea) {
                 tileIndex = CROP_TILES["full dirt"];
-
-            }else if(inBorderArea) {
+            } else if(inBorderArea) {
                 tileIndex = CROP_TILES["partial dirt"];
+            } else if(inMapBorder) {
+                tileIndex = WATER_TILES[Math.floor(Math.random() * WATER_TILES.length)];
             } else {
                 tileIndex = GROUND_TILES[Math.floor(Math.random() * GROUND_TILES.length)];
             }
 
-            map.push({
+            MAP.push({
                 x: x*TILE_SIZE, 
                 y: y*TILE_SIZE, 
                 tileIndex: tileIndex,
                 isCropArea: inCropArea,
-                isBorderArea: inBorderArea
+                isBorderArea: inBorderArea,
+                isMapBorder: inMapBorder
             });
         }
     }
@@ -95,11 +101,15 @@ async function main() {
 
         player.update(dt, input);
 
+        if(input.keys["e"]) {
+            game.player.plantCrop(game);
+        }
+
         gl.clearColor(0.2,0.6,0.2,1);
         gl.clear(gl.COLOR_BUFFER_BIT);
 
         // draw map
-        for(const tile of map){
+        for(const tile of MAP){
             drawTile(
                 gl, 
                 assets.shaders.sprite, 

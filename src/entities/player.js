@@ -9,8 +9,7 @@
  */
 
 class Player {
-    constructor(sprite, x=0, y=0, speed=2.0, direction="down") {
-        this.sprite = sprite;
+    constructor(x=0, y=0, speed=2.0, direction="down") {
         this.x = x;
         this.y = y;
         this.speed = speed;
@@ -24,13 +23,37 @@ class Player {
         this.money = 0;
     }
 
-    move(dx, dy, map) {
-        this.x += dx * this.speed;
-        this.y += dy * this.speed;
+    move(dx, dy) {
+        const nextX = this.x + dx * this.speed;
+        const nextY = this.y + dy * this.speed;
+
+        const oldX = this.x;
+        const oldY = this.y;
+
+        this.x = nextX;
+        this.y = nextY;
+
+        if (this.checkCollision()) {
+            this.x = oldX;
+            this.y = oldY;
+            return;
+        }
 
         this.updateDirection(dx, dy);
+    }
 
-        this.checkCollision(map);
+    checkCollision() {
+        const tileX = Math.floor(this.x / TILE_SIZE);
+        const tileY = Math.floor(this.y / TILE_SIZE);
+
+        const index = tileY * MAP_WIDTH + tileX;
+        const tile = MAP[index];
+
+        if(!tile) return false;
+
+        if(tile.isMapBorder) return true; // collision
+
+        return false;
     }
 
     updateDirection(dx, dy) {

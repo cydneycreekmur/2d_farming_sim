@@ -21,8 +21,8 @@ class Game {
         this.tileSheet = tileSheet;
         this.playerSheet = playerSheet;
 
-        this.mapWidth = 20;   // smaller for testing
-        this.mapHeight = 12;
+        this.mapWidth = 60;   // smaller for testing
+        this.mapHeight = 60;
 
         this.player = new Player(100, 100); // pixel coords
         this.crops = new Crops(assets.tilesTex);
