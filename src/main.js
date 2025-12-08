@@ -58,7 +58,7 @@ async function main() {
     const renderer = await initRenderer(gl);
 
     const input = new Input();
-    const player = new Player(32, 32);
+    const game = new Game(gl, assets, tileSheet, playerSheet);
 
     const cropStartX = Math.floor((MAP_WIDTH - CROP_WIDTH) / 2);
     const cropStartY = Math.floor((MAP_HEIGHT - CROP_HEIGHT) / 2);
@@ -99,7 +99,7 @@ async function main() {
         const dt = time - lastTime;
         lastTime = time;
 
-        player.update(dt, input);
+        game.update(dt, input);
 
         if(input.keys["e"]) {
             game.player.plantCrop(game);
@@ -130,8 +130,8 @@ async function main() {
             renderer, 
             playerSheet, 
             0, 
-            player.x, 
-            player.y, 
+            game.player.x, 
+            game.player.y, 
             assets.playerTex, 
             [canvas.width, canvas.height]
         );

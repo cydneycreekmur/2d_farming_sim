@@ -18,19 +18,3 @@ class SpriteSheet {
         return { sx: x, sy: y, sw: this.tileWidth, sh: this.tileHeight };
     }
 }
-
-class Player {
-    constructor(x=0, y=0) {
-        this.x = x;
-        this.y = y;
-        this.speed = 100; // pixels per second
-    }
-
-    update(dt, input) {
-        const delta = dt / 1000;
-        if (input.keys["w"]) this.y -= this.speed * delta;
-        if (input.keys["s"]) this.y += this.speed * delta;
-        if (input.keys["a"]) this.x -= this.speed * delta;
-        if (input.keys["d"]) this.x += this.speed * delta;
-    }
-}

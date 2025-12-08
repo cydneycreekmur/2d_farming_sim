@@ -11,8 +11,6 @@
  * 
  */
 
-const TILE_SIZE = 8;
-
 class Game {
     constructor(gl, assets, tileSheet, playerSheet) {
         this.gl = gl;
@@ -21,27 +19,15 @@ class Game {
         this.tileSheet = tileSheet;
         this.playerSheet = playerSheet;
 
-        this.mapWidth = 60;   // smaller for testing
-        this.mapHeight = 60;
-
-        this.player = new Player(100, 100); // pixel coords
-        this.crops = new Crops(assets.tilesTex);
+        this.player = new Player(240, 240); // pixel coords
+        this.crops = new Crops(assets.tileTex);
 
         // Create simple map array
-        this.map = [];
-        for (let y = 0; y < this.mapHeight; y++) {
-            for (let x = 0; x < this.mapWidth; x++) {
-                this.map.push({
-                    x: x * TILE_SIZE,
-                    y: y * TILE_SIZE,
-                    tileIndex: 0  // default grass tile
-                });
-            }
-        }
+        //this.map = MAP;
     }
 
     update(dt, input) {
-        this.player.updateDirection(dt, input, this);
+        this.player.update(dt, input);
         // TODO: update crops growth here
     }
 
@@ -50,7 +36,7 @@ class Game {
         const resolution = options.resolution;
 
         // draw tilemap
-        for (const tile of this.map) {
+        for (const tile of MAP) {
             drawTile(
                 gl,
                 this.assets.shaders.sprite,  // shader program
