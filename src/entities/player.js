@@ -49,12 +49,48 @@ class Player {
         }
     }
 
+    getTilePosition() {
+        return {
+            tileX: Math.floor(this.x / TILE_SIZE),
+            tileY: Math.floor(this.y / TILE_SIZE)
+        }
+    }
+
     draw(gl) {
 
     }
 
-    plantCrop(tileX, tileY) {
+    plantCrop(game) {
+        const{tileX, tileY} = this.getTilePosition();
 
+        const tile = game.map.find(t => t.x / TILE_SIZE === tileX && t.y / TILE_SIZE === tileY);
+        const randomLogsPlanting = [
+            "No planting here...",
+            "Hey! Stop that! >:(",
+            "This soil isn't tilled...",
+            "You have to plant on the brown stuff."
+        ];
+        const randomLogsAlreadyPlanted = [
+            "There's already a plant growing in this dirt.",
+            "Find a different plot of dirt.",
+            "Home occupied, please find another :)"
+        ];
+        if(!tile || !tile.isCropArea) {
+            console.log(randomLogsPlanting[Math.floor(Math.random() * randomLogsPlanting.length)]);
+            return;
+        }
+        const crop = game.crops.crops.find(c => c.x / TILES_SIZE === tileX && c.y / TILE_SIZE === tileY);
+
+        if(!crop) return;
+
+        if(crop.state == 1) {
+            console.log(randomLogsAlreadyPlanted[Math.floor(Math.random() * randomLogsAlreadyPlanted.length)]);
+            return;
+        }
+        crop.state = 1;
+        crop.timer = 0;
+
+        tile.tileIndex = CROP_TILES["radish seedling"];
     }
 
     harvestCrop(tileX, tileY) {
