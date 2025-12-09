@@ -18,7 +18,31 @@
     <body>
         <canvas id="game-surface" width="480" height="480"></canvas>
 
+        <button id="buy-seeds">Buy Seeds</button>
+        <button id="sell-crops">Sell Crops</button>
+        <button id="inventory">Inventory</button>
+
         <div id="game-message"></div>
+
+        <style>
+        
+        </style>
+
+        <div id="seed-counter">Seeds: 25</div>
+
+        <script src="config.js"></script>
+        <script src="UI.js"></script>
+        <script src="spritesheet.js"></script>
+        <script src="input.js"></script>
+        <script src="assets.js"></script>
+        <script src="render.js"></script>
+
+        <script src="entities/crop.js"></script>
+        <script src="entities/player.js"></script>
+        <script src="entities/tile.js"></script>
+
+        <script src="game.js"></script>
+        <script type="module" src="main.js"></script>
 
         <style>
         #game-message {
@@ -38,23 +62,67 @@
 
             transition: opacity 0.3s ease;
         }
+        
+        #seed-counter {
+            position: absolute;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            color: black;
+            padding: 6px 12px;
+            border-radius: 6px;
+
+            font-size: 20px;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+
+        #inventory {
+            position: absolute;
+            top: 580px;
+            right: 35%;
+            transform: translateX(10%);
+
+            background: whitesmoke;
+            color: black;
+            padding: 6px 12px;
+            border-radius: 6px;
+
+            font-family: sans-serif;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        #buy-seeds {
+            position: absolute;
+            top: 580px;
+            left: 35%;
+            transform: translateX(-10%);
+
+            background: whitesmoke;
+            color: black;
+            padding: 6px 12px;
+            border-radius: 6px;
+
+            font-family: sans-serif;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        #sell-crops {
+            position: absolute;
+            top: 580px;
+
+            background: whitesmoke;
+            color: black;
+            padding: 6px 12px;
+            border-radius: 6px;
+
+            font-family: sans-serif;
+            font-size: 14px;
+            text-align: center;
+        }
         </style>
-
-        <script src="config.js"></script>
-        <script src="UI.js"></script>
-        <script src="spritesheet.js"></script>
-        <script src="input.js"></script>
-        <script src="assets.js"></script>
-        <script src="render.js"></script>
-
-        <script src="entities/crop.js"></script>
-        <script src="entities/player.js"></script>
-        <script src="entities/tile.js"></script>
-
-        <script src="game.js"></script>
-        <script type="module" src="main.js"></script>
-
-        <button>Buy Seeds</button>
-        <button>Sell Crops</button>
     </body>
 </html>

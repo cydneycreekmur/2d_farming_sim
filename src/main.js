@@ -28,6 +28,18 @@ async function main() {
     const input = new Input();
     const game = new Game(gl, assets, tileSheet, playerSheet);
 
+    document.getElementById("buy-seeds").addEventListener("click", () => {
+        if(game.player.money < 10) {
+            showMessage("You're broke...");
+            return;
+        }
+
+        game.player.money -= 10;
+        game.player.inventory.seeds += 5;
+        updateSeedCounter(game.player);
+        showMessage("Bought 5 seeds!");
+    });
+
     const cropStartX = Math.floor((MAP_WIDTH - CROP_WIDTH) / 2);
     const cropStartY = Math.floor((MAP_HEIGHT - CROP_HEIGHT) / 2);
 

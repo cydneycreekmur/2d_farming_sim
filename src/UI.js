@@ -8,3 +8,8 @@ function showMessage(text, duration = 2000) {
         box.style.opacity = "0";
     }, duration);
 }
+
+function updateSeedCounter(player) {
+    const counter = document.getElementById("seed-counter");
+    counter.textContent = `Seeds: ${player.inventory.seeds}`;
+}

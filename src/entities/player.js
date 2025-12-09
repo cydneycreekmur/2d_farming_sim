@@ -22,7 +22,7 @@ class Player {
         this.inventory = {
             "seeds": 50
         };
-        this.money = 0;
+        this.money = 100;
 
         this.lastActionTime = 0;
         this.actionCooldown = 2000;
@@ -147,7 +147,9 @@ class Player {
         
         crop.state = 1;
         crop.timer = 0;
+
         this.inventory.seeds--;
+        updateSeedCounter(this);
 
         tile.tileIndex = CROP_TILES["radish seedling"];
     }
