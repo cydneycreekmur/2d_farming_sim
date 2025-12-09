@@ -43,16 +43,25 @@ class Player {
     }
 
     checkCollision() {
-        const tileX = Math.floor(this.x / TILE_SIZE);
-        const tileY = Math.floor(this.y / TILE_SIZE);
+        const left = this.x;
+        const right = this.x + PLAYER_SIZE - 1;
+        const top = this.y;
+        const bottom = this.y + PLAYER_SIZE - 1;
 
-        const index = tileY * MAP_WIDTH + tileX;
-        const tile = MAP[index];
+        const corners = [
+            {tx: Math.floor(left / TILE_SIZE),  ty: Math.floor(top / TILE_SIZE)},
+            {tx: Math.floor(right / TILE_SIZE), ty: Math.floor(top / TILE_SIZE)},
+            {tx: Math.floor(left / TILE_SIZE),  ty: Math.floor(bottom / TILE_SIZE)},
+            {tx: Math.floor(right / TILE_SIZE), ty: Math.floor(bottom / TILE_SIZE)}
+        ];
+        for(const c of corners) {
+            const index = c.ty * MAP_WIDTH + c.tx;
+            const tile = MAP[index];
 
-        if(!tile) return false;
+            if(!tile) return false;
 
-        if(tile.isMapBorder) return true; // collision
-
+            if(tile.isMapBorder) return true; // collision
+        }
         return false;
     }
 
@@ -72,6 +81,16 @@ class Player {
         }
     }
 
+    update(dt, input) {
+        let dx = 0, dy = 0;
+        if (input.keys["w"]) dy = -1;
+        if (input.keys["s"]) dy = 1;
+        if (input.keys["a"]) dx = -1;
+        if (input.keys["d"]) dx = 1;
+        if (dx || dy) this.move(dx, dy);
+    }
+
+
     getTilePosition() {
         return {
             tileX: Math.floor(this.x / TILE_SIZE),
@@ -86,7 +105,7 @@ class Player {
     plantCrop(game) {
         const{tileX, tileY} = this.getTilePosition();
 
-        const tile = game.map.find(t => t.x / TILE_SIZE === tileX && t.y / TILE_SIZE === tileY);
+        const tile = MAP.find(t => t.x / TILE_SIZE === tileX && t.y / TILE_SIZE === tileY);
         const randomLogsPlanting = [
             "No planting here...",
             "Hey! Stop that! >:(",
@@ -102,7 +121,10 @@ class Player {
             console.log(randomLogsPlanting[Math.floor(Math.random() * randomLogsPlanting.length)]);
             return;
         }
-        const crop = game.crops.crops.find(c => c.x / TILES_SIZE === tileX && c.y / TILE_SIZE === tileY);
+        const crop = game.crops.crops.find(c => 
+            c.x / TILE_SIZE === tileX && c.y / TILE_SIZE === tileY
+        );
+
 
         if(!crop) return;
 

@@ -8,38 +8,6 @@
  * 
  */
 
-const MAP_WIDTH = 60;
-const MAP_HEIGHT = 60;
-
-const CROP_WIDTH = 30;
-const CROP_HEIGHT = 30;
-
-const TILE_SIZE = 8;
-const PLAYER_SIZE = 16;
-
-const MAP = [];
-
-const GROUND_TILES = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    4, 4, 4,
-    5, 5,
-    16, 
-    17, 17, 17,
-    18
-];
-
-// crop tiles dictionary
-// "tile name": "tile location"
-const CROP_TILES = {
-    "full dirt": 1, 
-    "partial dirt": 2, 
-    "grown radish": 33,
-    "radish seedling": 34,
-    "grown wheat": 46,
-    "wheat seedling": 47
-};
-
-const WATER_TILES = [126, 127, 128];
 
 async function main() {
     const canvas = document.getElementById("game-surface");
@@ -68,7 +36,7 @@ async function main() {
 
             const inCropArea = x >= cropStartX && x < cropStartX + CROP_WIDTH && y >= cropStartY && y < cropStartY + CROP_HEIGHT;
             const inBorderArea = !inCropArea && x >= cropStartX - 1 && x <= cropStartX + CROP_WIDTH && y >= cropStartY - 1 && y <= cropStartY + CROP_HEIGHT;
-            const inMapBorder = !inCropArea && !inBorderArea && (x === 0 || y === 0 || x === MAP_WIDTH - 1 || y === MAP_WIDTH - 1);
+            const inMapBorder = !inCropArea && !inBorderArea && (x === 0 || y === 0 || x === MAP_WIDTH - 1 || y === MAP_HEIGHT - 1);
 
             let tileIndex;
 

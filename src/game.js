@@ -21,14 +21,11 @@ class Game {
 
         this.player = new Player(240, 240); // pixel coords
         this.crops = new Crops(assets.tileTex);
-
-        // Create simple map array
-        //this.map = MAP;
     }
 
     update(dt, input) {
-        this.player.update(dt, input);
         // TODO: update crops growth here
+        this.player.update(dt, input);
     }
 
     render(renderer, options) {
