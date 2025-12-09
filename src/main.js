@@ -27,7 +27,7 @@ async function main() {
 
     const input = new Input();
     const game = new Game(gl, assets, tileSheet, playerSheet);
-
+    // buy seeds
     document.getElementById("buy-seeds").addEventListener("click", () => {
         if(game.player.money < 10) {
             showMessage("You're broke...");
@@ -37,14 +37,37 @@ async function main() {
         game.player.money -= 10;
         game.player.inventory.seeds += 5;
         updateSeedCounter(game.player);
+        updateMoneyCounter(game.player);
         showMessage("Bought 5 seeds!");
+    });
+    // sell crops
+    document.getElementById("sell-crops").addEventListener("click", () => {
+        const earnings = (game.player.inventory.harvestedCrops || 0) * 15;
+
+        if(earnings <= 0) {
+            showMessage("No crops, no money! >:(");
+            return;
+        }
+
+        game.player.money += earnings;
+        game.player.inventory.harvestedCrops = 0;
+
+        updateMoneyCounter(game.player);
+        showMessage(`Sold crops for $${earnings}.`);
     });
 
     const cropStartX = Math.floor((MAP_WIDTH - CROP_WIDTH) / 2);
     const cropStartY = Math.floor((MAP_HEIGHT - CROP_HEIGHT) / 2);
 
     game.crops.setOffset(cropStartX, cropStartY);
+
+    const cropPixelX = cropStartX * TILE_SIZE;
+    const cropPixelY = cropStartY * TILE_SIZE;
+
+    const cropPixelWidth  = CROP_WIDTH  * TILE_SIZE;
+    const cropPixelHeight = CROP_HEIGHT * TILE_SIZE;
     
+    // map creation loop
     for(let y=0; y < MAP_HEIGHT; y++){
         for(let x=0; x < MAP_WIDTH; x++){
 
@@ -63,6 +86,7 @@ async function main() {
             } else {
                 tileIndex = GROUND_TILES[Math.floor(Math.random() * GROUND_TILES.length)];
             }
+            drawColoredQuad(gl, cropPixelX, cropPixelY, cropPixelWidth, cropPixelHeight, [0.66, 0.32, 0.21, 1.0]);
 
             MAP.push({
                 x: x*TILE_SIZE, 
@@ -84,11 +108,21 @@ async function main() {
         game.update(dt, input);
 
         if(input.mouse.left) {
-            game.player.plantCrop(game);
+            const rect = canvas.getBoundingClientRect();
+
+            const insideCanvas = 
+                input.mouse.x >= rect.left &&
+                input.mouse.x <= rect.right &&
+                input.mouse.y >= rect.top &&
+                input.mouse.y <= rect.bottom;
+
+            if(insideCanvas) game.player.plantCrop(game);
         }
 
         gl.clearColor(0.2,0.6,0.2,1);
         gl.clear(gl.COLOR_BUFFER_BIT);
+
+        drawColoredQuad(gl, cropPixelX, cropPixelY, cropPixelWidth, cropPixelHeight, [0.66, 0.32, 0.21, 1.0]);
 
         // draw map
         for(const tile of MAP){

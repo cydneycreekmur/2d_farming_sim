@@ -72,3 +72,15 @@ function drawTile(gl, shader, renderer, spritesheet, index, x, y, texture, resol
 
     gl.drawArrays(gl.TRIANGLES, 0, 6);
 }
+
+function drawColoredQuad(gl, x, y, width, height, color) {
+    gl.enable(gl.SCISSOR_TEST);
+    gl.scissor(x, y, width, height);
+
+    gl.clearColor(color[0], color[1], color[2], color[3]);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    gl.disable(gl.SCISSOR_TEST);
+
+    gl.clearColor(0.2, 0.6, 0.2, 1.0);
+}

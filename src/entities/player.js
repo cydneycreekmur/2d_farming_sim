@@ -20,7 +20,8 @@ class Player {
 
         this.holdingItem = null;
         this.inventory = {
-            "seeds": 50
+            "seeds": 50,
+            "harvestedCrops": 0
         };
         this.money = 100;
 

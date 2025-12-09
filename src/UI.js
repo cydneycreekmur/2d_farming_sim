@@ -13,3 +13,8 @@ function updateSeedCounter(player) {
     const counter = document.getElementById("seed-counter");
     counter.textContent = `Seeds: ${player.inventory.seeds}`;
 }
+
+function updateMoneyCounter(player) {
+    const counter = document.getElementById("money-counter");
+    counter.textContent = `Money: ${player.money}`;
+}

@@ -24,11 +24,9 @@
 
         <div id="game-message"></div>
 
-        <style>
-        
-        </style>
+        <div id="seed-counter">Seeds: 50</div>
 
-        <div id="seed-counter">Seeds: 25</div>
+        <div id="money-counter">Money: 100</div>
 
         <script src="config.js"></script>
         <script src="UI.js"></script>
@@ -66,8 +64,23 @@
         #seed-counter {
             position: absolute;
             top: 90px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 35%;
+            transform: translateX(-10%);
+
+            color: black;
+            padding: 6px 12px;
+            border-radius: 6px;
+
+            font-size: 20px;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+
+        #money-counter {
+            position: absolute;
+            top: 90px;
+            right: 35%;
+            transform: translateX(10%);
 
             color: black;
             padding: 6px 12px;

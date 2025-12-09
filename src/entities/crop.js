@@ -15,6 +15,8 @@ class Crops {
         this.mapWidth = CROP_WIDTH;
         this.mapHeight = CROP_HEIGHT;
 
+        this.timer = 0;
+
         this.crops = [];
         this.createCropGrid();
     }
