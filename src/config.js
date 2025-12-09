@@ -1,6 +1,7 @@
 /**
  * 
  * Constants for use across all functions
+ * Helper functions
  * 
  */
 

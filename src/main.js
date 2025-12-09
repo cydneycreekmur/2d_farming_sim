@@ -30,6 +30,8 @@ async function main() {
 
     const cropStartX = Math.floor((MAP_WIDTH - CROP_WIDTH) / 2);
     const cropStartY = Math.floor((MAP_HEIGHT - CROP_HEIGHT) / 2);
+
+    game.crops.setOffset(cropStartX, cropStartY);
     
     for(let y=0; y < MAP_HEIGHT; y++){
         for(let x=0; x < MAP_WIDTH; x++){
@@ -69,7 +71,7 @@ async function main() {
 
         game.update(dt, input);
 
-        if(input.keys["e"]) {
+        if(input.mouse.left) {
             game.player.plantCrop(game);
         }
 

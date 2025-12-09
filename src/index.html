@@ -18,7 +18,30 @@
     <body>
         <canvas id="game-surface" width="480" height="480"></canvas>
 
+        <div id="game-message"></div>
+
+        <style>
+        #game-message {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            background: whitesmoke;
+            color: black;
+            padding: 10px 16px;
+            border-radius: 6px;
+
+            font-family: sans-serif;
+            font-size: 14px;
+            text-align: center;
+
+            transition: opacity 0.3s ease;
+        }
+        </style>
+
         <script src="config.js"></script>
+        <script src="UI.js"></script>
         <script src="spritesheet.js"></script>
         <script src="input.js"></script>
         <script src="assets.js"></script>

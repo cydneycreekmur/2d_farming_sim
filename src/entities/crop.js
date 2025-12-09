@@ -12,8 +12,8 @@ class Crops {
         this.sprite = sprite;
 
         this.tileSize = 8;
-        this.mapWidth = 10;
-        this.mapHeight = 10;
+        this.mapWidth = CROP_WIDTH;
+        this.mapHeight = CROP_HEIGHT;
 
         this.crops = [];
         this.createCropGrid();
@@ -31,5 +31,10 @@ class Crops {
             }
         }
         return this.crops;
+    }
+
+    setOffset(x, y) {
+        this.startX = x;
+        this.startY = y;
     }
 }

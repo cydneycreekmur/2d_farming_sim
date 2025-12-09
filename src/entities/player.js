@@ -19,8 +19,13 @@ class Player {
         this.frameTimer = 0;
 
         this.holdingItem = null;
-        this.inventory = {};
+        this.inventory = {
+            "seeds": 50
+        };
         this.money = 0;
+
+        this.lastActionTime = 0;
+        this.actionCooldown = 2000;
     }
 
     move(dx, dy) {
@@ -92,9 +97,12 @@ class Player {
 
 
     getTilePosition() {
+        const centerX = this.x + PLAYER_SIZE / 2;
+        const centerY = this.y + PLAYER_SIZE / 2;
+
         return {
-            tileX: Math.floor(this.x / TILE_SIZE),
-            tileY: Math.floor(this.y / TILE_SIZE)
+            tileX: Math.floor(centerX / TILE_SIZE),
+            tileY: Math.floor(centerY / TILE_SIZE)
         }
     }
 
@@ -103,9 +111,54 @@ class Player {
     }
 
     plantCrop(game) {
+
         const{tileX, tileY} = this.getTilePosition();
 
         const tile = MAP.find(t => t.x / TILE_SIZE === tileX && t.y / TILE_SIZE === tileY);
+
+        const cx = tileX - game.crops.startX;
+        const cy = tileY - game.crops.startY;
+
+        const crop = game.crops.crops.find(c =>
+            c.x / TILE_SIZE === cx &&
+            c.y / TILE_SIZE === cy
+        );
+
+        const outOfPlantingBounds = !tile || !tile.isCropArea;
+
+        if(outOfPlantingBounds) {
+            this.cropMessages(true, false, false);
+            return;
+        }
+        if(!crop) return;
+
+        const alreadyPlanted = crop.state == 1;
+
+        if(alreadyPlanted) {
+            this.cropMessages(false, true, false);
+            return;
+        }
+        const outOfSeeds = this.inventory.seeds <= 0;
+
+        if(outOfSeeds) {
+            this.cropMessages(false, false, true);
+            return;
+        }
+        
+        crop.state = 1;
+        crop.timer = 0;
+        this.inventory.seeds--;
+
+        tile.tileIndex = CROP_TILES["radish seedling"];
+    }
+
+    cropMessages(outOfPlantingBounds, alreadyPlanted, outOfSeeds) {
+        const now = performance.now();
+        if(now - this.lastActionTime < this.actionCooldown) return;
+
+        this.lastActionTime = now;
+
+        // messages
         const randomLogsPlanting = [
             "No planting here...",
             "Hey! Stop that! >:(",
@@ -117,25 +170,25 @@ class Player {
             "Find a different plot of dirt.",
             "Home occupied, please find another :)"
         ];
-        if(!tile || !tile.isCropArea) {
-            console.log(randomLogsPlanting[Math.floor(Math.random() * randomLogsPlanting.length)]);
+        const randomLogsOutOfSeeds = [
+            "You're out of seeds!",
+            "Buy more seeds!",
+            "What are you planting? You've got no seeds!"
+        ];
+
+        if(outOfPlantingBounds) {
+            showMessage(randomLogsPlanting[Math.floor(Math.random() * randomLogsPlanting.length)]);
             return;
         }
-        const crop = game.crops.crops.find(c => 
-            c.x / TILE_SIZE === tileX && c.y / TILE_SIZE === tileY
-        );
 
-
-        if(!crop) return;
-
-        if(crop.state == 1) {
-            console.log(randomLogsAlreadyPlanted[Math.floor(Math.random() * randomLogsAlreadyPlanted.length)]);
+        if(alreadyPlanted) {
+            showMessage(randomLogsAlreadyPlanted[Math.floor(Math.random() * randomLogsAlreadyPlanted.length)]);
             return;
         }
-        crop.state = 1;
-        crop.timer = 0;
 
-        tile.tileIndex = CROP_TILES["radish seedling"];
+        if(outOfSeeds) {
+            showMessage(randomLogsOutOfSeeds[Math.floor(Math.random() * randomLogsOutOfSeeds.length)]);
+        }
     }
 
     harvestCrop(tileX, tileY) {
