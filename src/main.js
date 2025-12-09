@@ -107,16 +107,21 @@ async function main() {
 
         game.update(dt, input);
 
+        const rect = canvas.getBoundingClientRect();
+
+        const insideCanvas = 
+            input.mouse.x >= rect.left &&
+            input.mouse.x <= rect.right &&
+            input.mouse.y >= rect.top &&
+            input.mouse.y <= rect.bottom;
+
         if(input.mouse.left) {
-            const rect = canvas.getBoundingClientRect();
-
-            const insideCanvas = 
-                input.mouse.x >= rect.left &&
-                input.mouse.x <= rect.right &&
-                input.mouse.y >= rect.top &&
-                input.mouse.y <= rect.bottom;
-
+            
             if(insideCanvas) game.player.plantCrop(game);
+        }
+        if(input.mouse.right) {
+            
+            if(insideCanvas) game.player.harvestCrop(game);
         }
 
         gl.clearColor(0.2,0.6,0.2,1);

@@ -1,3 +1,10 @@
+/**
+ * 
+ * Handles UI functions and helpers
+ * 
+ */
+
+
 function showMessage(text, duration = 2000) {
     const box = document.getElementById("game-message");
     box.textContent = text;
@@ -11,10 +18,15 @@ function showMessage(text, duration = 2000) {
 
 function updateSeedCounter(player) {
     const counter = document.getElementById("seed-counter");
-    counter.textContent = `Seeds: ${player.inventory.seeds}`;
+    counter.textContent = `Seeds: ${player.inventory.radish_seeds}`;
 }
 
 function updateMoneyCounter(player) {
     const counter = document.getElementById("money-counter");
     counter.textContent = `Money: ${player.money}`;
+}
+
+function openInventory(player) {
+    const inventory = document.getElementById("inventory");
+
 }

@@ -15,7 +15,9 @@ class Crops {
         this.mapWidth = CROP_WIDTH;
         this.mapHeight = CROP_HEIGHT;
 
-        this.timer = 0;
+        this.name = null;
+
+        this.timeUntilGrown = 10000 // ms
 
         this.crops = [];
         this.createCropGrid();
@@ -38,5 +40,25 @@ class Crops {
     setOffset(x, y) {
         this.startX = x;
         this.startY = y;
+    }
+
+    updateToGrown(dt) {
+        for(const crop of this.crops) {
+            if(crop.state === 1) {
+                crop.timer += dt;
+
+                if(crop.timer >= this.timeUntilGrown) {
+                    crop.state = 2;
+                    crop.timer = 0;
+
+                    const tileX = crop.x / TILE_SIZE + this.startX;
+                    const tileY = crop.y / TILE_SIZE + this.startY;
+
+                    const index = tileY * MAP_WIDTH + tileX;
+                    // change later when wheat is also integrated
+                    MAP[index].tileIndex = CROP_TILES["grown radish"];
+                }
+            }
+        }
     }
 }

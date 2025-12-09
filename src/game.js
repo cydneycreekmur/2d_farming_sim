@@ -26,6 +26,8 @@ class Game {
     update(dt, input) {
         // TODO: update crops growth here
         this.player.update(dt, input);
+
+        this.crops.updateToGrown(dt);
     }
 
     render(renderer, options) {

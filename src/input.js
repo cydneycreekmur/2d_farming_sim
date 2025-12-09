@@ -21,11 +21,19 @@ class Input {
             this.mouse.y = e.clientY;
         });
         //mouse buttons
+            //left click
         window.addEventListener("mousedown", e => {
             if(e.button === 0) this.mouse.left = true;
         });
         window.addEventListener("mouseup", e => {
             if(e.button === 0) this.mouse.left = false;
+        });
+            //right click
+        window.addEventListener("mousedown", e => {
+            if (e.button === 2) this.mouse.right = true;
+        });
+        window.addEventListener("mouseup", e => {
+            if (e.button === 2) this.mouse.right = false;
         });
     }
 }

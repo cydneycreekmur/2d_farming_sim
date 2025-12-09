@@ -20,8 +20,10 @@ class Player {
 
         this.holdingItem = null;
         this.inventory = {
-            "seeds": 50,
-            "harvestedCrops": 0
+            "radish_seeds": 50,
+            "wheat_seeds": 0,
+            "radishes": 0,
+            "wheat": 0
         };
         this.money = 100;
 
@@ -136,26 +138,68 @@ class Player {
         const alreadyPlanted = crop.state == 1;
 
         if(alreadyPlanted) {
-            this.cropMessages(false, true, false);
             return;
         }
-        const outOfSeeds = this.inventory.seeds <= 0;
+        const outOfSeeds = this.inventory.radish_seeds <= 0;
 
         if(outOfSeeds) {
             this.cropMessages(false, false, true);
             return;
         }
+        if(crop.state === 2) return;
         
         crop.state = 1;
         crop.timer = 0;
 
-        this.inventory.seeds--;
+        this.inventory.radish_seeds--;
         updateSeedCounter(this);
 
         tile.tileIndex = CROP_TILES["radish seedling"];
     }
 
-    cropMessages(outOfPlantingBounds, alreadyPlanted, outOfSeeds) {
+    harvestCrop(game) {
+        const{tileX, tileY} = this.getTilePosition();
+
+        const tile = MAP.find(t => t.x / TILE_SIZE === tileX && t.y / TILE_SIZE === tileY);
+
+        const cx = tileX - game.crops.startX;
+        const cy = tileY - game.crops.startY;
+
+        const crop = game.crops.crops.find(c =>
+            c.x / TILE_SIZE === cx &&
+            c.y / TILE_SIZE === cy
+        );
+
+        const outOfPlantingBounds = !tile || !tile.isCropArea;
+
+        if(outOfPlantingBounds) {
+            this.cropMessages(true, false, false);
+            return;
+        }
+        if(!crop) return;
+
+        if(crop.state === 1) {
+            showMessage("Crop not ready...");
+            return;
+        }
+
+        if(crop.state === 2) {
+            if(tile.tileIndex === 33) {
+                this.inventory.radishes++;
+            } else if(tile.tileIndex === 46) {
+                this.inventory.wheat++;
+            } else {
+                showMessage("Undiscovered crop detected...");
+            }
+        }
+        crop.state = 0;
+        crop.timer = 0;
+
+        tile.tileIndex = CROP_TILES["full dirt"];
+        console.log(this.inventory.radishes);
+    }
+    
+    cropMessages(outOfPlantingBounds, outOfSeeds) {
         const now = performance.now();
         if(now - this.lastActionTime < this.actionCooldown) return;
 
@@ -168,11 +212,6 @@ class Player {
             "This soil isn't tilled...",
             "You have to plant on the brown stuff."
         ];
-        const randomLogsAlreadyPlanted = [
-            "There's already a plant growing in this dirt.",
-            "Find a different plot of dirt.",
-            "Home occupied, please find another :)"
-        ];
         const randomLogsOutOfSeeds = [
             "You're out of seeds!",
             "Buy more seeds!",
@@ -181,21 +220,9 @@ class Player {
 
         if(outOfPlantingBounds) {
             showMessage(randomLogsPlanting[Math.floor(Math.random() * randomLogsPlanting.length)]);
-            return;
-        }
-
-        if(alreadyPlanted) {
-            showMessage(randomLogsAlreadyPlanted[Math.floor(Math.random() * randomLogsAlreadyPlanted.length)]);
-            return;
-        }
-
-        if(outOfSeeds) {
+        } else if(outOfSeeds) {
             showMessage(randomLogsOutOfSeeds[Math.floor(Math.random() * randomLogsOutOfSeeds.length)]);
         }
-    }
-
-    harvestCrop(tileX, tileY) {
-
     }
 
     addItem(item) {
