@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <h1>Cyd Farms</h1>
+        <h1 style="font-family: sans-serif; color: rgb(102, 65, 9);">Cyd Farms</h1>
         <title>Farming Simulator</title>
         <style>
             body { 
@@ -13,9 +13,6 @@
                 justify-content: center;
             }
             canvas { display: block; }
-            h1 {
-                font-size: 24;
-            }
         </style>
     </head>
     <body oncontextmenu="return false;">
@@ -24,13 +21,18 @@
             <canvas id="game-surface" width="640" height="640"></canvas>
 
             <div id="side-menu">
-                <h3>Game Menu</h3>
-                <button id="buy-seeds">Buy Seeds</button>
-                <button id="sell-all-crops">Sell All Crops</button>
+                <h3 style="font-family: sans-serif; font-size: 24px; font-weight: bold; color: rgb(102, 65, 9);">Game Menu</h3>
+
                 <button id="inventory">Inventory</button>
+                <button id="sell-all-crops">Sell All Crops</button>
                 <button id="shop">Shop</button>
-                <div id="radish-seed-counter">Radish Seeds: 50</div>
-                <div id="wheat-seed-counter">Wheat Seeds: 0</div>
+                <button id="controls">Controls</button>
+
+                <h4 style="font-family: sans-serif; font-size: 18px; font-weight: bold; color: rgb(102, 65, 9);">Choose Seeds:</h4>
+
+                <button id="radish-seed-counter">Radish Seeds: 50</button>
+                <button id="wheat-seed-counter">Wheat Seeds: 0</button>
+
                 <div id="money-counter">Money: 100</div>
             </div>
         </div>
@@ -48,6 +50,8 @@
             <input id="seed-amount" type="number" min="1" value="1" style="width:100%;">
             <button id="max-amount">Max</button><br><br>
 
+            <p id="total-cost" style="font-weight: bold; height: 20px;">Total: $2</p>
+
             <button id="confirm-buy">Buy</button>
             <button id="close-shop">Cancel</button>
 
@@ -59,6 +63,19 @@
             <h2>Your Inventory</h2>
             <div id="inventory-items"></div>
             <button id="close-inventory">Close</button>
+        </div>
+
+        <div id="controls-window">
+            <h2>Controls</h2>
+
+            <label>Up: w</label><br>
+            <label>Down: s</label><br>
+            <label>Right: d</label><br>
+            <label>Left: a</label><br>
+            <label>Plant: left click</label><br>
+            <label>Harvest: right click</label><br><br>
+
+            <button id="close-controls">Close</button>
         </div>
 
         <div id="game-message"></div>
@@ -84,7 +101,7 @@
             left: 50%;
             transform: translateX(-50%);
 
-            background: whitesmoke;
+            background: white;
             color: black;
             padding: 10px 16px;
             border-radius: 6px;
@@ -97,7 +114,8 @@
         }
         
         #radish-seed-counter {
-            color: black;
+            background: rgb(236, 224, 200);
+            color: rgb(102, 65, 9);
             padding: 6px 12px;
             border-radius: 6px;
 
@@ -107,7 +125,8 @@
         }
 
         #wheat-seed-counter {
-            color: black;
+            background: rgb(236, 224, 200);
+            color: rgb(102, 65, 9);
             padding: 6px 12px;
             border-radius: 6px;
 
@@ -117,7 +136,7 @@
         }
 
         #money-counter {
-            color: black;
+            color: rgb(102, 65, 9);
             padding: 6px 12px;
             border-radius: 6px;
 
@@ -134,7 +153,23 @@
             width: 250px;
 
             background: whitesmoke;
-            border: 2px solid black;
+            border: 2px solid rgb(102, 65, 9);
+            border-radius: 8px;
+            padding: 16px;
+            font-family: sans-serif;
+
+            display: none;
+        }
+
+        #controls-window {
+            position: absolute;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+
+            background: whitesmoke;
+            border: 2px solid rgb(102, 65, 9);
             border-radius: 8px;
             padding: 16px;
             font-family: sans-serif;
@@ -148,48 +183,61 @@
             line-height: 1.6;
         }
 
-        #buy-seeds {
-            background: whitesmoke;
-            color: black;
+        #controls {
+            background: rgb(236, 224, 200);
+            color: rgb(102, 65, 9);
             padding: 6px 12px;
+
             border-radius: 6px;
+            border-color: rgb(102, 65, 9);
 
             font-family: sans-serif;
             font-size: 14px;
+            font-weight: bold;
             text-align: center;
         }
 
         #sell-all-crops {
-            background: whitesmoke;
-            color: black;
+            background: rgb(236, 224, 200);
+            color: rgb(102, 65, 9);
             padding: 6px 12px;
+
             border-radius: 6px;
+            border-color: rgb(102, 65, 9);
 
             font-family: sans-serif;
             font-size: 14px;
+            font-weight: bold;
             text-align: center;
         }
 
         #inventory {
-            background: whitesmoke;
-            color: black;
+            background: rgb(236, 224, 200);
+            color: rgb(102, 65, 9);
             padding: 6px 12px;
+
             border-radius: 6px;
+            border-color: rgb(102, 65, 9);
 
             font-family: sans-serif;
             font-size: 14px;
+            font-weight: bold;
         }
 
         #shop {
-            background: whitesmoke;
-            color: black;
+            background: rgb(236, 224, 200);
+            color: rgb(102, 65, 9);
             padding: 6px 12px;
+            
             border-radius: 6px;
+            border-color: rgb(102, 65, 9);
 
             font-family: sans-serif;
             font-size: 14px;
+            font-weight: bold;
             text-align: center;
         }
+
         #container {
             display: flex;
             flex-direction: row;
@@ -202,11 +250,11 @@
         #side-menu {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            background: #ffffffdd;
+            gap: 10px;
+            background: burlywood;
             padding: 20px;
             border-radius: 10px;
-            border: 2px solid black;
+            border: 2px solid rgb(102, 65, 9);
 
             font-family: sans-serif;
             font-size: 14px;

@@ -34,18 +34,14 @@ async function main() {
      * 
      */
 
-    // buy seeds
-    document.getElementById("buy-seeds").addEventListener("click", () => {
-        if(game.player.money < 10) {
-            showMessage("You're broke...");
-            return;
-        }
+    // open controls list
+    document.getElementById("controls").addEventListener("click", () => {
+        document.getElementById("controls-window").style.display = "block";
+    });
 
-        game.player.money -= 10;
-        game.player.inventory.radish_seeds += 5;
-        updateSeedCounter(game.player);
-        updateMoneyCounter(game.player);
-        showMessage("Bought 5 seeds!");
+    // close controls list
+    document.getElementById("close-controls").addEventListener("click", () => {
+        document.getElementById("controls-window").style.display = "none";
     });
 
     // sell crops
@@ -95,7 +91,7 @@ async function main() {
             radish: 2,
             wheat: 4
         };
-        const costPerSeed = prices[seedType];
+        const price = prices[seedType];
         
         let quantity = parseInt(amount.value);
 
@@ -103,16 +99,16 @@ async function main() {
             errorBox.textContent = "That's not a number...";
             return;
         }
-        const max = Math.floor(game.player.money / costPerSeed);
+        const max = Math.floor(game.player.money / price);
 
         if(quantity > max) {
+            errorBox.textContent = `You don't have enough money for ${quantity} seeds...`;
             quantity = max;
             amount.value = quantity;
-            errorBox.textContent = `You don't have enough money for ${quantity} seeds...`;
 
             if(quantity === 0) return;
         }
-        const totalCost = quantity * costPerSeed;
+        const totalCost = quantity * price;
         game.player.money -= totalCost;
 
         if(seedType === "radish"){
@@ -128,8 +124,38 @@ async function main() {
 
     // max button
     document.getElementById("max-amount").addEventListener("click", () => {
+        const seedType = document.getElementById("seed-type").value;
+        const amount = document.getElementById("seed-amount");
+        const errorBox = document.getElementById("shop-error");
 
+        const prices = {
+            radish: 2,
+            wheat: 4
+        };
+        const price = prices[seedType];
+
+        const max = Math.floor(game.player.money / price);
+
+        amount.value = max;
+
+        if(max <= 0) {
+            errorBox.textContent = `You don't have enough money for ${quantity} seeds...`;
+        } else {
+            errorBox.textContent = "";
+        }
+        updateMaxAndTotal();
     });
+
+    // change max amount with seed type
+    document.getElementById("seed-type").addEventListener("change", () => {
+        updateMaxAndTotal();
+    });
+
+    // update cost after player enters new amount
+    document.getElementById("seed-amount").addEventListener("input", () => {
+        updateMaxAndTotal();
+    });
+
 
     const cropStartX = Math.floor((MAP_WIDTH - CROP_WIDTH) / 2);
     const cropStartY = Math.floor((MAP_HEIGHT - CROP_HEIGHT) / 2);

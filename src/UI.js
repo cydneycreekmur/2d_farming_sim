@@ -48,10 +48,32 @@ function closeInventory() {
     window.style.display = "none";
 }
 
-function maxBuy(player, seedType) {
+function updateMaxAndTotal() {
+    const seedType = document.getElementById("seed-type").ariaValueMax;
+    const amountInput = document.getElementById("seed-amount");
+    const totalCost = document.getElementById("total-cost");
+    const errorBox = document.getElementById("shop-error");
+
     const prices = {
         radish: 2,
         wheat: 4
     };
-    return Math.floor(player.money / prices[seedType]);
+    const price = prices[seedType];
+
+    let quantity = parseInt(amount.value);
+
+    if(isNaN(quantity) || quantity <= 0) {
+        quantity = 1;
+    }
+    const max = Math.floor(game.player.money / price);
+
+    if(quantity > max) {
+        quantity = max;
+        amount.value = quantity;
+        errorBox.textContent = (`The most you can afford is ${quantity}`);
+    } else {
+        errorBox.textContent = "";
+    }
+    const cost = amount * price;
+    totalCost.textContent = `Total: $${cost}`;
 }
