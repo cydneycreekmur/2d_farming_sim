@@ -17,8 +17,11 @@ function showMessage(text, duration = 2000) {
 }
 
 function updateSeedCounter(player) {
-    const counter = document.getElementById("seed-counter");
-    counter.textContent = `Seeds: ${player.inventory.radish_seeds}`;
+    const radishCounter = document.getElementById("radish-seed-counter");
+    const wheatCounter = document.getElementById("wheat-seed-counter");
+
+    radishCounter.textContent = `Radish Seeds: ${player.inventory.radish_seeds}`;
+    wheatCounter.textContent = `Wheat Seeds: ${player.inventory.wheat_seeds}`;
 }
 
 function updateMoneyCounter(player) {
@@ -45,6 +48,10 @@ function closeInventory() {
     window.style.display = "none";
 }
 
-function changeBuyAmount() {
-    
+function maxBuy(player, seedType) {
+    const prices = {
+        radish: 2,
+        wheat: 4
+    };
+    return Math.floor(player.money / prices[seedType]);
 }

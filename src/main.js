@@ -49,7 +49,7 @@ async function main() {
     });
 
     // sell crops
-    document.getElementById("sell-crops").addEventListener("click", () => {
+    document.getElementById("sell-all-crops").addEventListener("click", () => {
         const earnings = (game.player.inventory.radishes || 0) * 15;
 
         if(earnings <= 0) {
@@ -77,6 +77,7 @@ async function main() {
     // open shop
     document.getElementById("shop").addEventListener("click", () => {
         document.getElementById("shop-window").style.display = "block";
+        document.getElementById("shop-error").textContent = "";
     });
 
     // close shop
@@ -85,11 +86,49 @@ async function main() {
     });
 
     // buying logic
-    document.addEventListener("click", function(e) {
-        if(e.target.classList.contains("buy-item")) {
-            const item = e.target.dataset.item;
-            const cost = Number(e.target.dataset.cost);
+    document.getElementById("confirm-buy").addEventListener("click", () => {
+        const seedType = document.getElementById("seed-type").value;
+        const amount = document.getElementById("seed-amount");
+        const errorBox = document.getElementById("shop-error");
+
+        const prices = {
+            radish: 2,
+            wheat: 4
+        };
+        const costPerSeed = prices[seedType];
+        
+        let quantity = parseInt(amount.value);
+
+        if(isNaN(quantity) || quantity <= 0) {
+            errorBox.textContent = "That's not a number...";
+            return;
         }
+        const max = Math.floor(game.player.money / costPerSeed);
+
+        if(quantity > max) {
+            quantity = max;
+            amount.value = quantity;
+            errorBox.textContent = `You don't have enough money for ${quantity} seeds...`;
+
+            if(quantity === 0) return;
+        }
+        const totalCost = quantity * costPerSeed;
+        game.player.money -= totalCost;
+
+        if(seedType === "radish"){
+            game.player.inventory.radish_seeds += quantity;
+        }
+        if(seedType === "wheat") {
+            game.player.inventory.wheat_seeds += quantity;
+        }
+
+        updateMoneyCounter(game.player);
+        updateSeedCounter(game.player);
+    });
+
+    // max button
+    document.getElementById("max-amount").addEventListener("click", () => {
+
     });
 
     const cropStartX = Math.floor((MAP_WIDTH - CROP_WIDTH) / 2);

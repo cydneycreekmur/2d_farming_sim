@@ -24,29 +24,34 @@
             <canvas id="game-surface" width="640" height="640"></canvas>
 
             <div id="side-menu">
-                <h3>Menu</h3>
+                <h3>Game Menu</h3>
                 <button id="buy-seeds">Buy Seeds</button>
-                <button id="sell-crops">Sell Crops</button>
+                <button id="sell-all-crops">Sell All Crops</button>
                 <button id="inventory">Inventory</button>
                 <button id="shop">Shop</button>
-                <div id="seed-counter">Seeds: 50</div>
+                <div id="radish-seed-counter">Radish Seeds: 50</div>
+                <div id="wheat-seed-counter">Wheat Seeds: 0</div>
                 <div id="money-counter">Money: 100</div>
             </div>
         </div>
         <div id="shop-window">
             <h2>Shop</h2>
+            <label>Seeds for Sale</label><br>
 
-            <div class="shop-item">
-                <span>Radish Seeds</span>
-                <button class="buy-item" data-item="radish_seeds" data-cost="2" data-amount="1">Buy $2 Each</button>
-            </div>
+            <select id="seed-type">
+                <option value="radish">Radish Seeds ($2 Each)</option>
+                <option value="wheat">Wheat Seeds ($4 Each)</option>
+            </select><br><br>
 
-            <div class="shop-item">
-                <span>Wheat Seeds</span>
-                <button class="buy-item" data-item="wheat_seeds" data-cost="4" data-amount="1">Buy $4 Each</button>
-            </div>
+            <label>Amount</label><br>
 
-            <button id="close-shop">Close</button>
+            <input id="seed-amount" type="number" min="1" value="1" style="width:100%;">
+            <button id="max-amount">Max</button><br><br>
+
+            <button id="confirm-buy">Buy</button>
+            <button id="close-shop">Cancel</button>
+
+            <p id="shop-error" style="color:red; height:20px;"></p>
         </div>
 
         
@@ -91,7 +96,17 @@
             transition: opacity 0.3s ease;
         }
         
-        #seed-counter {
+        #radish-seed-counter {
+            color: black;
+            padding: 6px 12px;
+            border-radius: 6px;
+
+            font-size: 20px;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+
+        #wheat-seed-counter {
             color: black;
             padding: 6px 12px;
             border-radius: 6px;
@@ -144,7 +159,7 @@
             text-align: center;
         }
 
-        #sell-crops {
+        #sell-all-crops {
             background: whitesmoke;
             color: black;
             padding: 6px 12px;
