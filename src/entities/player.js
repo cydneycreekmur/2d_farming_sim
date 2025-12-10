@@ -9,7 +9,7 @@
  */
 
 class Player {
-    constructor(x=0, y=0, speed=2.0, direction="down") {
+    constructor(x=0, y=0, speed=1.5, direction="down") {
         this.x = x;
         this.y = y;
         this.speed = speed;

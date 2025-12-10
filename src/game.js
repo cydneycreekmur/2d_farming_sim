@@ -19,7 +19,7 @@ class Game {
         this.tileSheet = tileSheet;
         this.playerSheet = playerSheet;
 
-        this.player = new Player(240, 240); // pixel coords
+        this.player = new Player(150, 150); // pixel coords
         this.crops = new Crops(assets.tileTex);
     }
 

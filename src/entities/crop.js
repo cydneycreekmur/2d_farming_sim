@@ -27,8 +27,8 @@ class Crops {
         for(let i = 0; i < this.mapWidth; i++) {
             for(let j = 0; j < this.mapHeight; j++) {
                 this.crops.push({
-                    x: i*this.tileSize, 
-                    y: j*this.tileSize, 
+                    x: i * this.tileSize, 
+                    y: j * this.tileSize, 
                     state:0, // 0 = empty, 1 = growing, 2 = ready
                     timer:0
                 });

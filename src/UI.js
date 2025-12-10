@@ -44,3 +44,7 @@ function closeInventory() {
     const window = document.getElementById("inventory-window");
     window.style.display = "none";
 }
+
+function changeBuyAmount() {
+    
+}

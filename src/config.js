@@ -5,14 +5,16 @@
  * 
  */
 
-const MAP_WIDTH = 60;
-const MAP_HEIGHT = 60;
+const MAP_WIDTH = 40;
+const MAP_HEIGHT = 40;
 
-const CROP_WIDTH = 30;
-const CROP_HEIGHT = 30;
+const CROP_WIDTH = 20;
+const CROP_HEIGHT = 20;
 
 const TILE_SIZE = 8;
 const PLAYER_SIZE = 16;
+
+const SCALE = 2;
 
 const MAP = [];
 // tiles for map generation

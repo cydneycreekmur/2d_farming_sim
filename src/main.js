@@ -67,23 +67,41 @@ async function main() {
     // open inventory
     document.getElementById("inventory").addEventListener("click", () => {
         openInventory(game.player);
-    })
+    });
 
     // close inventory
     document.getElementById("close-inventory").addEventListener("click", () => {
         closeInventory();
-    })
+    });
+    
+    // open shop
+    document.getElementById("shop").addEventListener("click", () => {
+        document.getElementById("shop-window").style.display = "block";
+    });
+
+    // close shop
+    document.getElementById("close-shop").addEventListener("click", () => {
+        document.getElementById("shop-window").style.display = "none";
+    });
+
+    // buying logic
+    document.addEventListener("click", function(e) {
+        if(e.target.classList.contains("buy-item")) {
+            const item = e.target.dataset.item;
+            const cost = Number(e.target.dataset.cost);
+        }
+    });
 
     const cropStartX = Math.floor((MAP_WIDTH - CROP_WIDTH) / 2);
     const cropStartY = Math.floor((MAP_HEIGHT - CROP_HEIGHT) / 2);
 
     game.crops.setOffset(cropStartX, cropStartY);
 
-    const cropPixelX = cropStartX * TILE_SIZE;
-    const cropPixelY = cropStartY * TILE_SIZE;
+    const cropPixelX = cropStartX * TILE_SIZE * SCALE;
+    const cropPixelY = cropStartY * TILE_SIZE * SCALE;
 
-    const cropPixelWidth  = CROP_WIDTH  * TILE_SIZE;
-    const cropPixelHeight = CROP_HEIGHT * TILE_SIZE;
+    const cropPixelWidth  = CROP_WIDTH  * TILE_SIZE * SCALE;
+    const cropPixelHeight = CROP_HEIGHT * TILE_SIZE * SCALE;
     
     // map creation loop
     for(let y=0; y < MAP_HEIGHT; y++){
@@ -104,11 +122,10 @@ async function main() {
             } else {
                 tileIndex = GROUND_TILES[Math.floor(Math.random() * GROUND_TILES.length)];
             }
-            drawColoredQuad(gl, cropPixelX, cropPixelY, cropPixelWidth, cropPixelHeight, [0.66, 0.32, 0.21, 1.0]);
 
             MAP.push({
-                x: x*TILE_SIZE, 
-                y: y*TILE_SIZE, 
+                x: x * TILE_SIZE, 
+                y: y * TILE_SIZE, 
                 tileIndex: tileIndex,
                 isCropArea: inCropArea,
                 isBorderArea: inBorderArea,
@@ -158,7 +175,8 @@ async function main() {
                 tile.x, 
                 tile.y, 
                 assets.tilesTex, 
-                [canvas.width, canvas.height]
+                [canvas.width, canvas.height],
+                SCALE
             );
         }
 
@@ -172,7 +190,8 @@ async function main() {
             game.player.x, 
             game.player.y, 
             assets.playerTex, 
-            [canvas.width, canvas.height]
+            [canvas.width, canvas.height],
+            SCALE
         );
 
         requestAnimationFrame(loop);

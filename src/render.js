@@ -39,7 +39,7 @@ async function initRenderer(gl) {
     return { vao, posBuffer, uvBuffer };
 }
 
-function drawTile(gl, shader, renderer, spritesheet, index, x, y, texture, resolution) {
+function drawTile(gl, shader, renderer, spritesheet, index, x, y, texture, resolution, scale=SCALE) {
     const tile = spritesheet.getTile(index);
 
     gl.useProgram(shader);
@@ -50,8 +50,8 @@ function drawTile(gl, shader, renderer, spritesheet, index, x, y, texture, resol
     gl.uniform1i(gl.getUniformLocation(shader, "uTexture"), 0);
 
     gl.uniform2fv(gl.getUniformLocation(shader, "uResolution"), resolution);
-    gl.uniform2fv(gl.getUniformLocation(shader, "uTranslate"), [x, y]);
-    gl.uniform2fv(gl.getUniformLocation(shader, "uSize"), [tile.sw, tile.sh]);
+    gl.uniform2fv(gl.getUniformLocation(shader, "uTranslate"), [x * scale, y * scale]);
+    gl.uniform2fv(gl.getUniformLocation(shader, "uSize"), [tile.sw * scale, tile.sh * scale]);
 
     const texW = spritesheet.image.width;
     const texH = spritesheet.image.height;
