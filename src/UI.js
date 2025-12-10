@@ -51,7 +51,6 @@ function closeInventory() {
 function updateMaxAndTotal(player) {
     const seedType = document.getElementById("seed-type").value;
     const amount = document.getElementById("seed-amount");
-    console.log()
     const totalCost = document.getElementById("total-cost");
     const errorBox = document.getElementById("shop-error");
 
@@ -60,7 +59,6 @@ function updateMaxAndTotal(player) {
         wheat: 4
     };
     const price = prices[seedType];
-    console.log(price);
 
     let quantity = parseInt(amount.value);
 

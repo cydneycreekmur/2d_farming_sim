@@ -48,11 +48,11 @@
             <label>Amount</label><br>
 
             <input id="seed-amount" type="number" min="1" value="1" style="width:100%;">
-            <button id="max-amount">Max</button><br><br>
+            <button id="max-amount" style="background: rgb(236, 224, 200); color: rgb(102, 65, 9);">Max</button><br><br>
 
             <p id="total-cost" style="font-weight: bold; height: 20px;">Total: $2</p>
 
-            <button id="confirm-buy">Buy</button>
+            <button id="confirm-buy" style="background: rgb(236, 224, 200); color: rgb(102, 65, 9);">Buy</button>
             <button id="close-shop">Cancel</button>
 
             <p id="shop-error" style="color:red; height:20px;"></p>
@@ -151,11 +151,13 @@
             transform: translateX(-50%);
             width: 250px;
 
-            background: whitesmoke;
+            background: burlywood;
             border: 2px solid rgb(102, 65, 9);
             border-radius: 8px;
             padding: 16px;
+
             font-family: sans-serif;
+            color: rgb(102, 65, 9);
 
             display: none;
         }
@@ -167,11 +169,12 @@
             transform: translateX(-50%);
             width: 250px;
 
-            background: whitesmoke;
+            background: burlywood;
             border: 2px solid rgb(102, 65, 9);
             border-radius: 8px;
             padding: 16px;
             font-family: sans-serif;
+            color: rgb(102, 65, 9);
 
             display: none;
         }
@@ -273,13 +276,16 @@
             transform: translateX(-50%);
             width: 280px;
 
-            background: whitesmoke;
-            border: 2px solid black;
-            border-radius: 10px;
-            padding: 20px;
+            background: burlywood;
+            border: 2px solid rgb(102, 65, 9);
+            border-radius: 8px;
+            padding: 16px;
 
             font-family: sans-serif;
-            display: none; /* hidden until opened */
+            color: rgb(102, 65, 9);
+
+            display: none;
+            
         }
 
         .shop-item {
@@ -295,6 +301,47 @@
         }
 
         #close-shop {
+            font-family: sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+
+            background: rgb(236, 224, 200);
+            color: rgb(102, 65, 9);;
+            border-color: rgb(102, 65, 9);
+
+            margin-top: 15px;
+            padding: 8px 12px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        #close-inventory {
+            font-family: sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            
+            background: rgb(236, 224, 200);
+            color: rgb(102, 65, 9);;
+            border-color: rgb(102, 65, 9);
+
+            margin-top: 15px;
+            padding: 8px 12px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        #close-controls {
+            font-family: sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            
+            background: rgb(236, 224, 200);
+            color: rgb(102, 65, 9);;
+            border-color: rgb(102, 65, 9);
+
             margin-top: 15px;
             padding: 8px 12px;
             width: 100%;

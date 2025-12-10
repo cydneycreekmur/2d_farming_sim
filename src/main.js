@@ -86,6 +86,12 @@ async function main() {
     // close shop
     document.getElementById("close-shop").addEventListener("click", () => {
         document.getElementById("shop-window").style.display = "none";
+
+        document.getElementById("seed-type").value = "radish";
+        document.getElementById("seed-amount").value = 1;
+        document.getElementById("total-cost").textContent = "Total: $2";
+        
+        updateMaxAndTotal();
     });
 
     // buying logic
