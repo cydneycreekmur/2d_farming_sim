@@ -56,7 +56,7 @@ class Crops {
                     const tileY = crop.y / TILE_SIZE + this.startY;
 
                     const index = tileY * MAP_WIDTH + tileX;
-                    // change later when wheat is also integrated
+
                     if(crop.type === "radish") {
                         MAP[index].tileIndex = CROP_TILES["grown radish"];
                     } else if(crop.type === "wheat") {
