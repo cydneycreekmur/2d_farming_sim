@@ -27,6 +27,13 @@ async function main() {
 
     const input = new Input();
     const game = new Game(gl, assets, tileSheet, playerSheet);
+
+    /**
+     * 
+     * Event Listeners
+     * 
+     */
+
     // buy seeds
     document.getElementById("buy-seeds").addEventListener("click", () => {
         if(game.player.money < 10) {
@@ -35,14 +42,15 @@ async function main() {
         }
 
         game.player.money -= 10;
-        game.player.inventory.seeds += 5;
+        game.player.inventory.radish_seeds += 5;
         updateSeedCounter(game.player);
         updateMoneyCounter(game.player);
         showMessage("Bought 5 seeds!");
     });
+
     // sell crops
     document.getElementById("sell-crops").addEventListener("click", () => {
-        const earnings = (game.player.inventory.harvestedCrops || 0) * 15;
+        const earnings = (game.player.inventory.radishes || 0) * 15;
 
         if(earnings <= 0) {
             showMessage("No crops, no money! >:(");
@@ -50,11 +58,21 @@ async function main() {
         }
 
         game.player.money += earnings;
-        game.player.inventory.harvestedCrops = 0;
+        game.player.inventory.radishes = 0;
 
         updateMoneyCounter(game.player);
         showMessage(`Sold crops for $${earnings}.`);
     });
+
+    // open inventory
+    document.getElementById("inventory").addEventListener("click", () => {
+        openInventory(game.player);
+    })
+
+    // close inventory
+    document.getElementById("close-inventory").addEventListener("click", () => {
+        closeInventory();
+    })
 
     const cropStartX = Math.floor((MAP_WIDTH - CROP_WIDTH) / 2);
     const cropStartY = Math.floor((MAP_HEIGHT - CROP_HEIGHT) / 2);

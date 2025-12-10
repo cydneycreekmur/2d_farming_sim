@@ -22,6 +22,12 @@
         <button id="sell-crops">Sell Crops</button>
         <button id="inventory">Inventory</button>
 
+        <div id="inventory-window">
+            <h2>Your Inventory</h2>
+            <div id="inventory-items"></div>
+            <button id="close-inventory">Close</button>
+        </div>
+
         <div id="game-message"></div>
 
         <div id="seed-counter">Seeds: 50</div>
@@ -105,6 +111,28 @@
             font-family: sans-serif;
             font-size: 14px;
             text-align: center;
+        }
+
+        #inventory-window {
+            position: absolute;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+
+            background: whitesmoke;
+            border: 2px solid black;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: sans-serif;
+
+            display: none;
+        }
+
+        #inventory-items {
+            margin-top: 10px;
+            font-size: 16px;
+            line-height: 1.6;
         }
 
         #buy-seeds {

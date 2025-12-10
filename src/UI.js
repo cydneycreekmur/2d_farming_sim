@@ -27,6 +27,20 @@ function updateMoneyCounter(player) {
 }
 
 function openInventory(player) {
-    const inventory = document.getElementById("inventory");
+    const window = document.getElementById("inventory-window");
+    const items = document.getElementById("inventory-items");
 
+    items.innerHTML = `
+        <p>Radish Seeds: ${player.inventory.radish_seeds}</p>
+        <p>Wheat Seeds: ${player.inventory.wheat_seeds}</p>
+        <p>Radishes: ${player.inventory.radishes}</p>
+        <p>Wheat: ${player.inventory.wheat}</p>
+        <p>Money: ${player.money}</p>
+    `;
+    window.style.display = "block";
+}
+
+function closeInventory() {
+    const window = document.getElementById("inventory-window");
+    window.style.display = "none";
 }
