@@ -48,9 +48,10 @@ function closeInventory() {
     window.style.display = "none";
 }
 
-function updateMaxAndTotal() {
-    const seedType = document.getElementById("seed-type").ariaValueMax;
-    const amountInput = document.getElementById("seed-amount");
+function updateMaxAndTotal(player) {
+    const seedType = document.getElementById("seed-type").value;
+    const amount = document.getElementById("seed-amount");
+    console.log()
     const totalCost = document.getElementById("total-cost");
     const errorBox = document.getElementById("shop-error");
 
@@ -59,13 +60,14 @@ function updateMaxAndTotal() {
         wheat: 4
     };
     const price = prices[seedType];
+    console.log(price);
 
     let quantity = parseInt(amount.value);
 
     if(isNaN(quantity) || quantity <= 0) {
         quantity = 1;
     }
-    const max = Math.floor(game.player.money / price);
+    const max = Math.floor(player.money / price);
 
     if(quantity > max) {
         quantity = max;
@@ -74,6 +76,12 @@ function updateMaxAndTotal() {
     } else {
         errorBox.textContent = "";
     }
-    const cost = amount * price;
+    const cost = quantity * price;
+    console.log(cost);
     totalCost.textContent = `Total: $${cost}`;
+}
+
+function clearSeedSelection() {
+    document.getElementById("radish-seed-counter").classList.remove("selected-seed");
+    document.getElementById("wheat-seed-counter").classList.remove("selected-seed");
 }

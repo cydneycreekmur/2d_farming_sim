@@ -30,7 +30,8 @@ class Crops {
                     x: i * this.tileSize, 
                     y: j * this.tileSize, 
                     state:0, // 0 = empty, 1 = growing, 2 = ready
-                    timer:0
+                    timer:0,
+                    type: null // can be radish or wheat
                 });
             }
         }
@@ -56,7 +57,11 @@ class Crops {
 
                     const index = tileY * MAP_WIDTH + tileX;
                     // change later when wheat is also integrated
-                    MAP[index].tileIndex = CROP_TILES["grown radish"];
+                    if(crop.type === "radish") {
+                        MAP[index].tileIndex = CROP_TILES["grown radish"];
+                    } else if(crop.type === "wheat") {
+                        MAP[index].tileIndex = CROP_TILES["grown wheat"];
+                    }
                 }
             }
         }

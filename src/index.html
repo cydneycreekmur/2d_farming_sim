@@ -15,7 +15,7 @@
             canvas { display: block; }
         </style>
     </head>
-    <body oncontextmenu="return false;">
+    <body oncontextmenu="return false">
 
         <div id="container">
             <canvas id="game-surface" width="640" height="640"></canvas>
@@ -89,7 +89,6 @@
 
         <script src="entities/crop.js"></script>
         <script src="entities/player.js"></script>
-        <script src="entities/tile.js"></script>
 
         <script src="game.js"></script>
         <script type="module" src="main.js"></script>
@@ -302,6 +301,11 @@
             cursor: pointer;
         }
 
+        .selected-seed {
+            outline: 3px solid gold;
+            background: rgb(255, 241, 179);
+            box-shadow: 0 0 10px gold;
+        }
         </style>
     </body>
 </html>

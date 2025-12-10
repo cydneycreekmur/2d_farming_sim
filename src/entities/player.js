@@ -18,7 +18,8 @@ class Player {
         this.frame = 0;
         this.frameTimer = 0;
 
-        this.holdingItem = null;
+        this.selectedSeed = "radish";
+
         this.inventory = {
             "radish_seeds": 50,
             "wheat_seeds": 0,
@@ -109,8 +110,10 @@ class Player {
         }
     }
 
-    draw(gl) {
-
+    setSelectedSeed(type) {
+        if(type === "radish" || type === "wheat") {
+            this.selectedSeed = type;
+        }
     }
 
     plantCrop(game) {
@@ -126,6 +129,7 @@ class Player {
             c.x / TILE_SIZE === cx &&
             c.y / TILE_SIZE === cy
         );
+        let seedType = this.selectedSeed;
 
         const outOfPlantingBounds = !tile || !tile.isCropArea;
 
@@ -140,21 +144,31 @@ class Player {
         if(alreadyPlanted) {
             return;
         }
-        const outOfSeeds = this.inventory.radish_seeds <= 0;
+        const outOfRadishSeeds = this.inventory.radish_seeds <= 0;
+        const outOfWheatSeeds = this.inventory.wheat_seeds <= 0;
 
-        if(outOfSeeds) {
+        if((seedType === "radish" && outOfRadishSeeds) || (seedType === "wheat" && outOfWheatSeeds)) {
             this.cropMessages(false, false, true);
             return;
-        }
+        }    
         if(crop.state === 2) return;
         
         crop.state = 1;
         crop.timer = 0;
 
-        this.inventory.radish_seeds--;
+        if(seedType === "radish") {
+            this.inventory.radish_seeds--;
+        } else if(seedType === "wheat") {
+            this.inventory.wheat_seeds--;
+        }
         updateSeedCounter(this);
 
-        tile.tileIndex = CROP_TILES["radish seedling"];
+        if(seedType === "radish") {
+            tile.tileIndex = CROP_TILES["radish seedling"];
+        } else if(seedType === "wheat") {
+            tile.tileIndex = CROP_TILES["wheat seedling"];
+        }
+        crop.type = seedType;
     }
 
     harvestCrop(game) {
@@ -169,6 +183,7 @@ class Player {
             c.x / TILE_SIZE === cx &&
             c.y / TILE_SIZE === cy
         );
+        let seedType = this.selectedSeed;
 
         const outOfPlantingBounds = !tile || !tile.isCropArea;
 
@@ -194,9 +209,9 @@ class Player {
         }
         crop.state = 0;
         crop.timer = 0;
+        crop.type = null;
 
         tile.tileIndex = CROP_TILES["full dirt"];
-        console.log(this.inventory.radishes);
     }
     
     cropMessages(outOfPlantingBounds, outOfSeeds) {
@@ -223,13 +238,5 @@ class Player {
         } else if(outOfSeeds) {
             showMessage(randomLogsOutOfSeeds[Math.floor(Math.random() * randomLogsOutOfSeeds.length)]);
         }
-    }
-
-    addItem(item) {
-
-    }
-
-    deleteItem(item) {
-
     }
 }

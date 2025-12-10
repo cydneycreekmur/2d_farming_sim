@@ -28,6 +28,8 @@ async function main() {
     const input = new Input();
     const game = new Game(gl, assets, tileSheet, playerSheet);
 
+    document.getElementById("radish-seed-counter").classList.add("selected-seed");
+
     /**
      * 
      * Event Listeners
@@ -46,7 +48,10 @@ async function main() {
 
     // sell crops
     document.getElementById("sell-all-crops").addEventListener("click", () => {
-        const earnings = (game.player.inventory.radishes || 0) * 15;
+        const radishEarnings = (game.player.inventory.radishes || 0) * 5;
+        const wheatEarnings = (game.player.inventory.wheat || 0) * 10;
+
+        const earnings = radishEarnings + wheatEarnings;
 
         if(earnings <= 0) {
             showMessage("No crops, no money! >:(");
@@ -54,10 +59,12 @@ async function main() {
         }
 
         game.player.money += earnings;
+
         game.player.inventory.radishes = 0;
+        game.player.inventory.wheat = 0;
 
         updateMoneyCounter(game.player);
-        showMessage(`Sold crops for $${earnings}.`);
+        showMessage(`Sold all crops for $${earnings}.`);
     });
 
     // open inventory
@@ -143,17 +150,29 @@ async function main() {
         } else {
             errorBox.textContent = "";
         }
-        updateMaxAndTotal();
+        updateMaxAndTotal(game.player);
     });
 
     // change max amount with seed type
     document.getElementById("seed-type").addEventListener("change", () => {
-        updateMaxAndTotal();
+        updateMaxAndTotal(game.player);
     });
 
     // update cost after player enters new amount
     document.getElementById("seed-amount").addEventListener("input", () => {
-        updateMaxAndTotal();
+        updateMaxAndTotal(game.player);
+    });
+
+    // add seed options
+    document.getElementById("radish-seed-counter").addEventListener("click", () => {
+        game.player.setSelectedSeed("radish");
+        clearSeedSelection();
+        document.getElementById("radish-seed-counter").classList.add("selected-seed");
+    });
+    document.getElementById("wheat-seed-counter").addEventListener("click", () => {
+        game.player.setSelectedSeed("wheat");
+        clearSeedSelection();
+        document.getElementById("wheat-seed-counter").classList.add("selected-seed");
     });
 
 

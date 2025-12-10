@@ -48,24 +48,6 @@ class Game {
             );
         }
 
-        // TODO: draw crops
-        // Example (if crop tile exists at tileIndex):
-        /*
-        for (const crop of this.crops.list) {
-            drawTile(
-                gl,
-                this.assets.shaders.sprite,
-                renderer,
-                this.tileSheet,
-                crop.tileIndex,
-                crop.x * TILE_SIZE,
-                crop.y * TILE_SIZE,
-                this.assets.tilesTex,
-                resolution
-            );
-        }
-        */
-
         // draw player (assume frame 0 of playerSheet for idle)
         const playerFrame = this.playerSheet.getTile(0);
 
