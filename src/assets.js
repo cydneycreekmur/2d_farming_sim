@@ -69,13 +69,13 @@ function createTexture(gl, image) {
 }
 
 async function loadAssets(gl) {
-    const tileSetImg = await loadImage("spritesheets/5_Tiles/TileSet.png");
-    const playerImg = await loadImage("spritesheets/1_Character/D_Idle.png");
+    const tileSetImg = await loadImage("spritesheets_in_use/5_Tiles/TileSet.png");
+    const playerImg = await loadImage("spritesheets_in_use/1_Character/D_Idle.png");
 
     const tilesTex = createTexture(gl, tileSetImg);
     const playerTex = createTexture(gl, playerImg);
 
-    const spriteShader = await initShaders(gl, "shaders/vertex.glsl", "shaders/fragment.glsl");
+    const spriteShader = await initShaders(gl, "src/shaders/vertex.glsl", "src/shaders/fragment.glsl");
 
     return {
         tileSetImg,
